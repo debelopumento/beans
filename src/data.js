@@ -6,23 +6,10 @@ const getRandomInt = (min, max) => {
 	return Math.floor(Math.random() * (max - min)) + min;
 };
 
-const transactionTypes = [
-	"Gas & Fuel",
+export const transactionTypes = [
 	"Groceries",
-	"Pharmacy",
-	"Rental Car & Texi",
-	"Fee and Charges",
-	"Home Phone",
-	"Investments",
 	"Mortgage & Rent",
-	"Uncategorized",
-	"Hotel",
-	"Air Travel",
-	"Electronics & Software",
 	"Restaurants",
-	"Financial",
-	"Fast Food",
-	"Auto Insurance",
 	"Shopping"
 ];
 
@@ -44,6 +31,5 @@ const generateNodes = nodeCount => {
 	return nodes;
 };
 
-const nodes = generateNodes(110);
+export const nodes = generateNodes(100);
 
-export default nodes;
