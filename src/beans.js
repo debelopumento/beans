@@ -2,9 +2,11 @@ import React, { PureComponent, PropTypes } from "react";
 import * as d3 from "d3";
 import data from "./data";
 import colorData from "./colors";
+const width = window.innerWidth;
+const height = window.innerHeight;
 
 class Beans extends PureComponent {
-	center = { x: 470, y: 300 };
+	center = { x: width / 2, y: height / 2 };
 	nodes = data;
 	colors = colorData;
 
@@ -16,7 +18,7 @@ class Beans extends PureComponent {
 			let beans = null;
 			const charge = d => {
 				console.log(d);
-				return -Math.pow(d.radius, 2) * forceStrength;
+				return -Math.pow(d.amount, 2) * forceStrength;
 			};
 
 			const ticked = () => {
@@ -47,7 +49,7 @@ class Beans extends PureComponent {
 
 			const colorCollection = this.colors;
 
-			const fillColor = function() {
+			const fillColor = () => {
 				return colorCollection[
 					Math.floor(Math.random() * colorCollection.length)
 				];
@@ -56,33 +58,30 @@ class Beans extends PureComponent {
 			svg = d3
 				.select("#vis")
 				.append("svg")
-				.attr("width", 940)
-				.attr("height", 600);
+				.attr("width", width)
+				.attr("height", height);
 
 			beans = svg.selectAll(".beans").data(this.nodes, function(d) {
 				return d.id;
 			});
 
-			var bubble = beans
+			const bubble = beans
 				.enter()
 				.append("circle")
 				.classed("beans", true)
 				.attr("fill", function(d) {
 					return fillColor(d.group);
 				})
-				.attr("stroke", function(d) {
-					return d3.rgb(fillColor(d.group)).darker();
-				})
+				.attr("stroke", "#888")
 				.attr("stroke-width", 2);
 
 			beans = beans.merge(bubble);
 
 			beans.transition().duration(1000).attr("r", function(d) {
-				return d.radius;
+				return d.amount;
 			});
 
 			simulation.nodes(this.nodes);
-
 			simulation.alpha(1).restart();
 		};
 
